@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+.text-primary-app {
+    color: #28666e;
+}
+.text-success-app {
+    color: #069e01;
+}
+.card-success-app {
+    background-color: #069e011e;
+}
+.card-danger-app {
+    background-color: #ff000010;
+}
