@@ -44,12 +44,12 @@ export class ContentComponent {
 
 
       this.getProducts(this.page, this.brand, this.category, this.productName);
-      this.getBrands();
+      this.getBrands(this.category);
     });
   }
-  getBrands() : void {
+  getBrands(category: number) : void {
     this.isLoadingBrands = true;
-    this.storeService.getBrands().subscribe(result => {
+    this.storeService.getBrands(category).subscribe(result => {
       this.isLoadingBrands = false;
       this.listBrands = result;
     }, error => {
@@ -123,7 +123,7 @@ export class ContentComponent {
   getPage(page: number) : void {
     console.log(page);
     this.page = page;
-    this.router.navigate(['/'], 
+    this.router.navigate(['/content'], 
       { queryParams: 
         { 
           page: page, 
@@ -147,7 +147,7 @@ export class ContentComponent {
   }
   brandFilter() : void {
     this.brand = this.selectedBrands.join();
-    this.router.navigate(['/'], 
+    this.router.navigate(['/content'], 
       { queryParams: 
         { 
           page: 1, 
@@ -159,7 +159,7 @@ export class ContentComponent {
   resetBrandFilter() : void {
     this.brand = "";
     this.selectedBrands = [];
-    this.router.navigate(['/'], 
+    this.router.navigate(['/content'], 
       { queryParams: 
         { 
           page: 1, 

@@ -18,81 +18,8 @@
     </div>
   </div>
   <div class="col-md-9">
-    <div *ngFor="let product of listProducts | paginate: { id: 'CONTENT_ID', itemsPerPage: 10, currentPage: page, totalItems: totalItems }" class="card mb-3 w-100 custom-card">
-      <div class="row g-0">
-        <div class="col-md-3 d-flex justify-content-center align-items-center">
-          <img class="img-fluid" [src]="product.imgSrc" [alt]="product.name"/>
-        </div>
-        <div class="col-md-9 ps-4">
-          <div class="card-body" [ngClass]="product.discountRate < 0 ? 'card-success-app' : product.discountRate > 0 ? 'card-danger-app' : ''">
-            <div class="row">
-              <div class="col-md-12">
-                <h5 class="card-title">{{product.name}}</h5>               
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <p>
-                  <span class="badge bg-secondary me-2">{{product.brand}}</span>  
-                  <span class="badge bg-primary me-2">{{product.store}}</span>
-                </p>
-                <p>
-                  <span class="badge" [ngClass]="product.discountRate < 0 ? 'bg-success' : product.discountRate > 0 ? 'bg-danger' : 'bg-dark'"> 
-                    {{+product.discountRate.toFixed(2) > 0 ? '+' : ''}}{{product.discountRate.toFixed(2)}} %
-                  </span>
-                </p> 
-                <p *ngIf="product.isHistoricalPrice">
-                  <span class="badge bg-danger"> M&iacute;nimo Hist&oacute;rico!!</span>
-                </p>  
-              </div>                                
-            </div>
-            <div class="row">
-              <div class="col-md-12">
-                <p>
-                  Precio actual: 
-                  <span class="text-primary-app">
-                    S/ {{product.lastPrice}}
-                </span>                      
-                </p>         
-                <p>
-                  M&iacute;nimo Hist&oacute;rico: <span class="text-primary-app">S/ {{product.historicalMinPrice}}</span>
-                </p>                              
-              </div>
-            </div>
-            <hr> 
-            <div class="row">
-              <div class="col-md-12">
-                <div *ngIf="isChartLoading" class="row">
-                  <div class="col-md-12 d-flex justify-content-center">
-                    <div class="spinner-border text-secondary" role="status">
-                      <span class="visually-hidden ">Loading...</span>
-                    </div>
-                  </div>
-                </div>
-                <button *ngIf="!isChartLoading" class="btn btn-outline-dark mb-1" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapseChart'+product.id" aria-expanded="false" [attr.aria-controls]="'#collapseChart'+product.id">
-                  Mostrar Historial de Hoy
-                </button>         
-                <div class="collapse" [id]="'collapseChart'+product.id">
-                  <div class="card card-body">
-                    <canvas [id]="'Chart'+product.id" >{{ product.chart }}</canvas>
-                  </div>
-                </div>               
-              </div>
-            </div>
-            <hr>
-            <div class="row">
-              <div class="col-md-12">
-                <a [routerLink]="['/detail', product.id]" class="read-more custom-link">
-                  Ver Detalle
-                  <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
-                    <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                  </svg>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div *ngFor="let product of listProducts | paginate: { id: 'CONTENT_ID', itemsPerPage: 10, currentPage: page, totalItems: totalItems }">
+      <app-custom-product-card [product]="product" [isChartLoading]="isChartLoading"></app-custom-product-card>
     </div>
   </div>
 </div>

@@ -35,13 +35,21 @@ export class StoreService {
     console.log("url to get: " + url);
     return this.http.get(url);
   }
-  getBrands() : Observable<any> {
-    let url = this.baseUrl.concat("brands");
+  getBrands(category: number) : Observable<any> {
+    if(category === undefined) {
+      category = 0;
+    }
+    let url = this.baseUrl.concat("brands?category=" + category);
     console.log("url to get: " + url);
     return this.http.get(url);
   }
   getCategories() : Observable<any> {
     let url = this.baseUrl.concat("categories");
+    console.log("url to get: " + url);
+    return this.http.get(url);
+  }
+  getProductsWithBestDiscounts() : Observable<any> {
+    let url = this.baseUrl.concat("products/bestDiscounts");
     console.log("url to get: " + url);
     return this.http.get(url);
   }

@@ -11,6 +11,8 @@ import { RouterModule } from '@angular/router';
 import { IndexComponent } from './components/index/index.component';
 import {NgxPaginationModule} from 'ngx-pagination'; 
 import { FormsModule } from '@angular/forms';
+import { CustomProductCardComponent } from './components/custom-product-card/custom-product-card.component';
+import { CustomProductCardLightComponent } from './components/custom-product-card-light/custom-product-card-light.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +20,9 @@ import { FormsModule } from '@angular/forms';
     ContentComponent,
     NavbarComponent,
     DetailComponent,
-    IndexComponent
+    IndexComponent,
+    CustomProductCardComponent,
+    CustomProductCardLightComponent,
   ],
   imports: [
     BrowserModule,

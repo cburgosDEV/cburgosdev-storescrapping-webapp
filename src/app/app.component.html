@@ -1,6 +1,6 @@
 <nav class="navbar navbar-dark bg-dark navbar-expand-lg ">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">WebScrapping</a>
+      <a class="navbar-brand" href="">WebScrapping</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -12,16 +12,18 @@
             </a>
             <ul class="dropdown-menu">
                 <div *ngFor="let category of listCategories">
-                    <li><a class="dropdown-item" [routerLink]="['/']" [queryParams]="{page: 1, category: category.id}">{{category.name}}</a></li>
+                    <li>
+                      <button class="dropdown-item" (click)="goToCategoryPage(category.id)">{{category.name}}</button>
+                    </li>
                 </div>            
             </ul>
           </li>
         </ul>
-        <div class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Ej: Iphone 15" aria-label="Buscar" [(ngModel)]="productName">      
+        <div class="d-flex mt-3" role="search">
+          <input class="form-control me-2" type="search" placeholder="Ej: Iphone 15" aria-label="Buscar" [(ngModel)]="productName" (keyup.enter)="search()">      
           <button class="btn btn-outline-primary" (click)="search()">Buscar</button>
         </div>
       </div>
     </div>
-  </nav>
+</nav>
 <router-outlet></router-outlet>

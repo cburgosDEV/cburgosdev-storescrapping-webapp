@@ -2,71 +2,73 @@
     <div class="col-md-12">
         <div class="card w-100">
             <div class="card-header">
-              Hist&oacute;rico por D&iacute;as
+              <strong class="text-primary-app">Hist&oacute;rico por D&iacute;as</strong>          
             </div>
             <canvas id="MyChartDays" >{{ chart }}</canvas>
         </div>
     </div>
 </div>
 <div class="row mx-4 my-4">
-  <div class="col-md-6">
+  <div class="col-md-12">
     <div class="card w-100">
       <div class="card-header">
-        Hist&oacute;rico de Hoy
+        <strong class="text-primary-app">Hist&oacute;rico de Hoy</strong>
       </div>
       <canvas id="MyChartToday" >{{ chart }}</canvas>
-  </div>
-  </div>
-    <div class="col-md-6">
-        <div class="card custom-card w-100">
-            <div class="row g-0">
-                <div class="col-md-3 d-flex justify-content-center align-items-center">
-                    <img class="img-fluid" [src]="product.imgSrc" [alt]="product.name"/>
-                </div>
-                <div class="col-md-9 ps-4">
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-md-12">
-                          <h5 class="card-title">{{product.name}}</h5>               
-                        </div>
-                      </div>
-                      <div class="row">
-                        <div class="col-md-12">
-                          <p>
-                            <span class="badge bg-secondary">{{product.brand}}</span>
-                          </p>
-                          <p>
-                            <span class="badge bg-primary">{{product.store}}</span>
-                          </p>      
-                        </div>                                
-                      </div>
-                      <div class="row">
-                        <div class="col-md-12">
-                          <p>
-                            Precio actual: 
-                            <span class="text-primary-app">
-                              S/ {{product.lastPrice}}
-                          </span>                      
-                          </p>         
-                          <p>
-                            M&iacute;nimo Hist&oacute;rico: <span class="text-primary-app">S/ {{product.historicalMinPrice}}</span>
-                          </p>                              
-                        </div>
-                      </div>
-                      <hr> 
-                      <div class="row">
-                        <div class="col-md-12">
-                          <a [href]="product.fullDetailHref" class="read-more custom-link" target="_blank">
-                            Ir a la tienda
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon" viewBox="0 0 20 20" fill="currentColor">
-                              <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
+  </div>
+</div>
+<div class="row mx-4 my-4">
+  <div class="col-md-12">
+    <div class="card mb-3">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <img class="img-fluid card-img-top" [src]="product.imgSrc" [alt]="product.name" style="height: 380px; object-fit: scale-down;"/>
+        </div>
+        <div class="col-md-8">
+          <div class="card-header">
+            <strong class="text-primary-app">{{product.name}}</strong>
+          </div>
+          <div class="card-body" [ngClass]="product.discountRate > 0 ? 'card-success-app' : product.discountRate < 0 ? 'card-danger-app' : ''" style="height: 300px;">
+            <div class="row">
+              <div class="col-md-12">
+                <p>
+                  <span class="badge bg-secondary me-2">{{product.brand}}</span>  
+                  <span class="badge bg-primary me-2">{{product.store}}</span>
+                </p>
+                <p>
+                  <span class="badge" [ngClass]="product.discountRate > 0 ? 'bg-success' : product.discountRate < 0 ? 'bg-danger' : 'bg-dark'"> 
+                    {{product.discountRate < 0 ? "+" + (product.discountRate * -1) : product.discountRate > 0 ? '-' + product.discountRate : product.discountRate}}%
+                  </span>
+                </p> 
+                <p *ngIf="product.isHistoricalPrice">
+                  <span class="badge bg-danger"> M&iacute;nimo Hist&oacute;rico!!</span>
+                </p>  
+              </div>                                
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <p>
+                  Precio actual: 
+                  <span class="text-primary-app">
+                    S/ {{product.lastPrice}}
+                </span>                      
+                </p>         
+                <p>
+                  M&iacute;nimo Hist&oacute;rico: <span class="text-primary-app">S/ {{product.historicalMinPrice}}</span>
+                </p>                              
+              </div>
+            </div>         
+          </div>
+          <div class="card-footer">
+            <div class="row">
+              <div class="col-md-12">
+                <a [href]="product.fullDetailHref" class="btn btn-outline-dark w-100" target="_blank">Ir a la tienda</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

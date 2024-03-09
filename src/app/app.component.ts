@@ -31,9 +31,17 @@ export class AppComponent {
       console.log(error);
     });
   }
+  goToCategoryPage(category: number) : void {
+    this.router.navigate(['/content'], 
+    { queryParams: 
+      { 
+        page: 1, 
+        category: category
+      } 
+    });
+  }
   search() : void {
-    console.log(this.productName);
-    this.router.navigate(['/'], 
+    this.router.navigate(['/content'], 
       { queryParams: 
         { 
           page: 1, 

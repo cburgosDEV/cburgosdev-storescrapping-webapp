@@ -1,0 +1,47 @@
+<div class="card mb-3">
+    <img class="img-fluid card-img-top" [src]="product.imgSrc" [alt]="product.name" style="height: 250px; object-fit: scale-down;"/>
+    <div class="card-header">
+      <strong class="text-primary-app">{{product.name}}</strong>
+    </div>
+    <div class="card-body" [ngClass]="product.discountRate > 0 ? 'card-success-app' : product.discountRate < 0 ? 'card-danger-app' : ''" style="height: 250px; object-fit: scale-down;">
+      <div class="row">
+        <div class="col-md-12">
+          <p>
+            <span class="badge bg-secondary me-2">{{product.brand}}</span>  
+            <span class="badge bg-primary me-2">{{product.store}}</span>
+          </p>
+          <p>
+            <span class="badge" [ngClass]="product.discountRate > 0 ? 'bg-success' : product.discountRate < 0 ? 'bg-danger' : 'bg-dark'"> 
+              {{product.discountRate < 0 ? "+" + (redondearHaciaArriba(product.discountRate) * -1) : product.discountRate > 0 ? '-' + redondearHaciaArriba(product.discountRate) : redondearHaciaArriba(product.discountRate)}}%
+            </span>
+          </p> 
+          <p *ngIf="product.isHistoricalPrice">
+            <span class="badge bg-danger"> M&iacute;nimo Hist&oacute;rico!!</span>
+          </p>  
+        </div>                                
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <p>
+            Precio actual: 
+            <span class="text-primary-app">
+              S/ {{product.lastPrice}}
+          </span>                      
+          </p>         
+          <p>
+            M&iacute;nimo Hist&oacute;rico: <span class="text-primary-app">S/ {{product.historicalMinPrice}}</span>
+          </p>                              
+        </div>
+      </div>      
+    </div>
+    <div class="card-footer">
+      <div class="row">
+        <div class="col-md-6">
+          <a [routerLink]="['/detail', product.id]" class="btn btn-outline-dark w-100">Ver Detalle</a>
+        </div>
+        <div class="col-md-6">
+          <a [href]="product.fullDetailHref" class="btn btn-outline-dark w-100" target="_blank">Ir a la tienda</a>
+        </div>
+      </div>
+    </div>
+  </div>

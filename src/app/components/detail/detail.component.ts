@@ -43,6 +43,7 @@ export class DetailComponent {
     this.storeService.getProduct(productId).subscribe(result => {
       this.isLoading = false;
       this.product = result;
+      this.product.discountRate = this.redondearHaciaArriba(result.discountRate, 2)
       this.productRecordList = result.productRecordList;
       this.productDetailList = result.productDetailList;
       this.buildChartDays();
@@ -87,8 +88,12 @@ export class DetailComponent {
         ]
       },
       options: {
-        aspectRatio: 3
+        aspectRatio: 7
       }
     });
+  }
+  redondearHaciaArriba(numero: number, decimales: number): number {
+    const factor = Math.pow(10, decimales);
+    return Math.ceil(numero * factor) / factor;
   }
 }
