@@ -3,26 +3,32 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
-import { ContentComponent } from './components/content/content.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
 import { AppRoutingModule } from './app-routing.module';
-import { DetailComponent } from './components/detail/detail.component';
 import { RouterModule } from '@angular/router';
-import { IndexComponent } from './components/index/index.component';
-import {NgxPaginationModule} from 'ngx-pagination'; 
+import { IndexComponent } from './components/pages/index/index.component';
+import { NgxPaginationModule } from 'ngx-pagination'; 
 import { FormsModule } from '@angular/forms';
-import { CustomProductCardComponent } from './components/custom-product-card/custom-product-card.component';
-import { CustomProductCardLightComponent } from './components/custom-product-card-light/custom-product-card-light.component';
+import { CategoryPageComponent } from './components/pages/category-page/category-page.component';
+import { FilterSectionComponent } from './components/sections/filter-section/filter-section.component';
+import { StorePageComponent } from './components/pages/store-page/store-page.component';
+import { FilterPageComponent } from './components/pages/filter-page/filter-page.component';
+import { ProductSectionComponent } from './components/sections/product-section/product-section.component';
+import { DetailPageComponent } from './components/pages/detail-page/detail-page.component';
+import { ProductCardComponent } from './components/custom/product-card/product-card.component';
+import { ProductCardSmallComponent } from './components/custom/product-card-small/product-card-small.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ContentComponent,
-    NavbarComponent,
-    DetailComponent,
     IndexComponent,
-    CustomProductCardComponent,
-    CustomProductCardLightComponent,
+    CategoryPageComponent,
+    FilterSectionComponent,
+    StorePageComponent,
+    FilterPageComponent,
+    ProductSectionComponent,
+    DetailPageComponent,
+    ProductCardComponent,
+    ProductCardSmallComponent,
   ],
   imports: [
     BrowserModule,

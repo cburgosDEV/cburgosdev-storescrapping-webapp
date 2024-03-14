@@ -1,0 +1,45 @@
+<div class="row mx-4 my-4">
+    <div class="col-md-12 d-flex justify-content-between">
+        <strong class="text-primary-app">Mejores ofertas en Smartphones</strong>
+        <button class="btn btn-outline-dark" (click)="goToCategoryPage(this.categoryConstants.SMARTPHONES)">Ver m&aacute;s ofertas</button>
+    </div>
+    <div class="col-md-12 mt-2">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-6">
+            <div *ngFor="let product of listSmartphones" class="col">
+                <app-product-card-small
+                    [product]="product">
+                </app-product-card-small>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mx-4 my-4">
+    <div class="col-md-12 d-flex justify-content-between">
+        <strong class="text-primary-app">Mejores ofertas en Juguetes y Figuras</strong>
+        <button class="btn btn-outline-dark" (click)="goToCategoryPage(this.categoryConstants.TOYS)">Ver m&aacute;s ofertas</button>
+    </div>
+    <div class="col-md-12 mt-2">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-6">
+            <div *ngFor="let product of listToys" class="col">
+                <app-product-card-small 
+                    [product]="product">
+                </app-product-card-small>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mx-4 my-4">
+    <div class="col-md-12 d-flex justify-content-between">
+        <strong class="text-primary-app">Mejores ofertas en Laptops</strong>
+        <button class="btn btn-outline-dark" (click)="goToCategoryPage(this.categoryConstants.LAPTOPS)">Ver m&aacute;s ofertas</button>
+    </div>
+    <div class="col-md-12 mt-2">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-xl-3 row-cols-xxl-6">
+            <div *ngFor="let product of listLaptops" class="col">
+                <app-product-card-small 
+                    [product]="product">
+                </app-product-card-small>
+            </div>
+        </div>
+    </div>
+</div>

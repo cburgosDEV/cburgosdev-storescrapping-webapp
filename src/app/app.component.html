@@ -18,6 +18,18 @@
                 </div>            
             </ul>
           </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Tiendas
+            </a>
+            <ul class="dropdown-menu">
+                <div *ngFor="let store of listStores">
+                    <li>
+                      <button class="dropdown-item" (click)="goToStorePage(store.id)">{{store.name}}</button>
+                    </li>
+                </div>            
+            </ul>
+          </li>
         </ul>
         <div class="d-flex mt-3" role="search">
           <input class="form-control me-2" type="search" placeholder="Ej: Iphone 15" aria-label="Buscar" [(ngModel)]="productName" (keyup.enter)="search()">      

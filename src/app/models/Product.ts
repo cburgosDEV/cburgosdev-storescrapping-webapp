@@ -12,6 +12,8 @@ export class Product {
     store: string;
     productDetailList: any
     chart: any;
+    categoryId: number;
+    brandId: number;
 
     constructor
     (
@@ -27,7 +29,9 @@ export class Product {
         brand: string, 
         store: string,
         productDetailList: any,
-        chart: any
+        chart: any,
+        categoryId: number,
+        brandId: number
     ) 
     {
         this.id = id;
@@ -41,7 +45,9 @@ export class Product {
         this.imgSrc = imgSrc;
         this.brand = brand;
         this.store = store;
-        this.chart = chart;
         this.productDetailList = productDetailList;
+        this.chart = chart;
+        this.categoryId = categoryId;
+        this.brandId = brandId;
     }
 }

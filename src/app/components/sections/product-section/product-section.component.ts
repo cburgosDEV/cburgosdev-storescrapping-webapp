@@ -1,0 +1,224 @@
+import { Component } from '@angular/core';
+import { Product } from 'src/app/models/Product';
+import { StoreService } from 'src/app/services/store.service';
+import Chart from 'chart.js/auto';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Brand } from 'src/app/models/Brand';
+import { Store } from 'src/app/models/Store';
+
+@Component({
+  selector: 'app-product-section',
+  templateUrl: './product-section.component.html',
+  styleUrls: ['./product-section.component.css']
+})
+export class ProductSectionComponent {
+  listProducts: Product[] = [];
+  isLoading: boolean = false;
+  chart: any = [];
+  isChartLoading: boolean = false;
+  category: number = 0;
+  brand: string = "";
+  store: string = "";
+  productName: string = "";
+
+  page: number = 1;
+  totalPages: number = 0;
+  totalItems: number = 0;
+
+  listBrands: Brand[] = [];
+  isLoadingBrands: boolean = false;
+  selectedBrands: number[] = [];
+
+  listStores: Store[] = [];
+  isLoadingStores: boolean = false;
+  selectedStores: number[] = [];
+
+  constructor(private storeService: StoreService, private route: ActivatedRoute, private router: Router) {}
+
+  ngOnInit() { 
+    this.route.queryParams.subscribe(params => {
+      this.page = params['page'];
+      this.category = params['category'];
+      this.brand = params['brand'];
+      this.productName = params['product'];
+      this.store = params['store'];
+      
+      console.log('Page:', this.page);
+      console.log('Category:', this.category);
+      console.log('Brand:', this.brand);
+      console.log('Product:', this.productName);
+      console.log('Store:', this.store);
+
+
+      this.getProducts(this.page, this.brand, this.category, this.productName, this.store);
+      this.getStores();     
+    });
+  }
+  setBrands(listProducts: any) : void {
+    this.listBrands = [];
+    if(isNaN(this.category) || this.category.toString() === "") {
+      listProducts.forEach((p: any) => {
+        let index = this.listBrands.find((b: Brand) => b.id == p.brandId && p.brandId != 0);
+        if(index == undefined) this.listBrands.push(new Brand(p.brandId, p.brand));
+      });
+      console.log(this.listBrands);
+    } else {
+      this.getBrands(this.category);
+    }
+  }
+  getBrands(category: number) : void {
+    this.isLoadingBrands = true;
+    this.storeService.getBrands(category).subscribe(result => {
+      this.isLoadingBrands = false;
+      this.listBrands = result;
+    }, error => {
+      this.isLoadingBrands = false;
+      console.log(error);
+    });
+  }
+  getStores() : void {
+    this.isLoadingStores = true;
+    this.storeService.getStores().subscribe(result => {
+      this.isLoadingStores = false;
+      this.listStores = result;
+    }, error => {
+      this.isLoadingStores = false;
+      console.log(error);
+    });
+  }
+  getProducts(page: number, brand: string, category: number, productName: string, store: string) : void {
+    this.listProducts = [];
+    this.isLoading = true;
+    this.isChartLoading = true;
+    this.storeService.getProducts(page, brand, category, productName, store).subscribe(result => {
+      this.isLoading = false;
+      this.totalPages = result.totalPages;
+      this.totalItems = result.totalElements;
+      result.content.forEach((x: any) => {
+        let product = new Product(
+          x.id,
+          x.name, 
+          x.lastPrice, 
+          x.historicalMinPrice, 
+          x.discountRate, 
+          x.isHistoricalPrice, 
+          x.detailHref, 
+          x.fullDetailHref, 
+          x.imgSrc, 
+          x.brand, 
+          x.store,
+          x.productDetailList,
+          {},
+          x.categoryId,
+          x.brandId,
+        );
+        this.listProducts.push(product);
+      });
+
+      this.setBrands(result.content);
+
+      setTimeout(() => {
+        this.generateCharts();
+        this.isChartLoading = false;
+      }, 1000);
+    }, error => {
+      this.isLoading = false;
+      console.log(error);
+    });
+  }
+  generateCharts() : void {
+    for(let i = 0; i < this.listProducts.length; i++) {
+      this.listProducts[i].chart = this.buildChart(this.listProducts[i]);
+    }
+  }
+  buildChart(product: any) : any {
+    try {
+      return new Chart('Chart'+product.id, {
+        type: 'line',
+        data: {
+          labels: product.productDetailList.map((x: any) => x.formatedDate), 
+           datasets: [
+            {
+              label: product.name,
+              data: product.productDetailList.map((x: any) => x.minPrice),
+              backgroundColor: 'gray'
+            },  
+          ]
+        },
+        options: {
+          aspectRatio: 4,
+          responsive: true
+        }
+      });
+    } catch (error) {
+      console.log(error);
+      return [];
+    }
+  }
+  getPage(page: number) : void {
+    console.log(page);
+    this.page = page;
+    this.router.navigate(['/content'], 
+      { queryParams: 
+        { 
+          page: page, 
+          category: this.category,
+          brand: this.brand,
+          product: this.productName,
+          store: this.store
+        } 
+      });
+  }
+  brandCheckbox(id: number) : void {
+    const index = this.selectedBrands.indexOf(id);
+
+    if (index === -1) {
+      this.selectedBrands.push(id);
+    } else {
+      this.selectedBrands.splice(index, 1);
+    }
+
+    console.log(id);
+    console.log(this.selectedBrands);
+  }
+  storeCheckbox(id: number) : void {
+    const index = this.selectedStores.indexOf(id);
+
+    if (index === -1) {
+      this.selectedStores.push(id);
+    } else {
+      this.selectedStores.splice(index, 1);
+    }
+
+    console.log(id);
+    console.log(this.selectedStores);
+  }
+  filter() : void {
+    this.store = this.selectedStores.join();
+    this.brand = this.selectedBrands.join();
+    this.router.navigate(['/content'], 
+      { queryParams: 
+        { 
+          page: 1, 
+          category: this.category,
+          brand: this.brand,
+          store: this.store,
+        } 
+      });
+  }
+  resetFilters() : void {
+    this.brand = "";
+    this.store = "";
+    this.selectedBrands = [];
+    this.selectedStores = [];
+    this.router.navigate(['/content'], 
+      { queryParams: 
+        { 
+          page: 1, 
+          category: this.category,
+          brand: this.brand,
+          store: this.store
+        } 
+      });
+  }
+}

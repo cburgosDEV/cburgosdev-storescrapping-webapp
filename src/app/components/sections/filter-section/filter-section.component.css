@@ -1,0 +1,4 @@
+.card-brand-scrollable {
+    max-height: 300px; /* Ajusta la altura según tus necesidades */
+    overflow: auto; /* Hace que el div sea scrollable */
+  }

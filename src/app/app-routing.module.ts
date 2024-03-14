@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
-import { DetailComponent } from './components/detail/detail.component';
-import { IndexComponent } from './components/index/index.component';
-import { ContentComponent } from './components/content/content.component';
+import { IndexComponent } from './components/pages/index/index.component';
+import { CategoryPageComponent } from './components/pages/category-page/category-page.component';
+import { StorePageComponent } from './components/pages/store-page/store-page.component';
+import { FilterPageComponent } from './components/pages/filter-page/filter-page.component';
+import { DetailPageComponent } from './components/pages/detail-page/detail-page.component';
 
 const routes: Routes = [
   {
@@ -11,12 +13,20 @@ const routes: Routes = [
       component: IndexComponent
   },
   {
-    path: 'content',
-    component: ContentComponent
+    path: 'category',
+    component: CategoryPageComponent
+  },
+  {
+    path: 'store',
+    component: StorePageComponent
+  },
+  {
+    path: 'filter',
+    component: FilterPageComponent
   },
   {
       path: 'detail/:id',
-      component: DetailComponent
+      component: DetailPageComponent
   },
   { 
       path: '**', 

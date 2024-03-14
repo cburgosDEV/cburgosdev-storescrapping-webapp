@@ -13,12 +13,17 @@ export class AppComponent {
   
   listCategories: Category[] = [];
   isLoadingCategories: boolean = false;
-  productName: string = ""
+
+  listStores: Category[] = [];
+  isLoadingStores: boolean = false;
+
+  productName: string = "";
 
   constructor(private storeService: StoreService, private router: Router) {}
 
   ngOnInit() {    
     this.getCategories();
+    this.getStores();
   }
 
   getCategories() : void {
@@ -31,8 +36,18 @@ export class AppComponent {
       console.log(error);
     });
   }
+  getStores() : void {
+    this.isLoadingStores = true;
+    this.storeService.getStores().subscribe(result => {
+      this.isLoadingStores = false;
+      this.listStores = result;
+    }, error => {
+      this.isLoadingStores = false;
+      console.log(error);
+    });
+  }
   goToCategoryPage(category: number) : void {
-    this.router.navigate(['/content'], 
+    this.router.navigate(['/category'], 
     { queryParams: 
       { 
         page: 1, 
@@ -40,8 +55,17 @@ export class AppComponent {
       } 
     });
   }
+  goToStorePage(store: number) : void {
+    this.router.navigate(['/store'], 
+    { queryParams: 
+      { 
+        page: 1, 
+        store: store
+      } 
+    });
+  }
   search() : void {
-    this.router.navigate(['/content'], 
+    this.router.navigate(['/filter'], 
       { queryParams: 
         { 
           page: 1, 

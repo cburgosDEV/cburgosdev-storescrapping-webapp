@@ -10,7 +10,7 @@ export class StoreService {
 
   constructor(private http: HttpClient) { }
 
-  getProducts(page: number, brand: string, category: number, productName: string) : Observable<any> {
+  getProducts(page: number, brand: string, category: number, productName: string, store: string) : Observable<any> {
     if(page == undefined) {
       page = 1;
     }
@@ -26,6 +26,10 @@ export class StoreService {
     if(productName !== undefined) {
       console.log("product");
       pageUrl += "&product=" + productName;
+    }
+    if(store !== undefined) {
+      console.log("store");
+      pageUrl += "&store=" + store;
     }
     console.log("url to get: " + pageUrl);
     return this.http.get(pageUrl);
@@ -50,6 +54,12 @@ export class StoreService {
   }
   getProductsWithBestDiscounts() : Observable<any> {
     let url = this.baseUrl.concat("products/bestDiscounts");
+    console.log("url to get: " + url);
+    return this.http.get(url);
+  }
+
+  getStores() : Observable<any> {
+    let url = this.baseUrl.concat("stores");
     console.log("url to get: " + url);
     return this.http.get(url);
   }
