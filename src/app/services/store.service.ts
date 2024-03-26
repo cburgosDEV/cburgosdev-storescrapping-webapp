@@ -10,7 +10,7 @@ export class StoreService {
 
   constructor(private http: HttpClient) { }
 
-  getProducts(page: number, brand: string, category: number, productName: string, store: string) : Observable<any> {
+  getProducts(page: number, brand: string, category: string, productName: string, store: string) : Observable<any> {
     if(page == undefined) {
       page = 1;
     }
@@ -39,9 +39,9 @@ export class StoreService {
     console.log("url to get: " + url);
     return this.http.get(url);
   }
-  getBrands(category: number) : Observable<any> {
+  getBrands(category: string) : Observable<any> {
     if(category === undefined) {
-      category = 0;
+      category = "";
     }
     let url = this.baseUrl.concat("brands?category=" + category);
     console.log("url to get: " + url);

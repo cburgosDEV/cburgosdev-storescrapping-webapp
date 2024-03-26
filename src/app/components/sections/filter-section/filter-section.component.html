@@ -37,8 +37,8 @@
         <div class="card-body card-brand-scrollable">
           <div *ngFor="let category of listCategories">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" [value]="category.id" [id]="'storeCheckbox'+category.id" (change)="storeCheckbox(category.id)" [checked]="selectedStores.includes(category.id)">
-              <label class="form-check-label" [for]="'storeCheckbox'+category.id">
+              <input class="form-check-input" type="checkbox" [value]="category.id" [id]="'categoryCheckbox'+category.id" (change)="categoryCheckbox(category.id)" [checked]="selectedCategories.includes(category.id)">
+              <label class="form-check-label" [for]="'categoryCheckbox'+category.id">
                 {{category.name}}
               </label>
             </div>

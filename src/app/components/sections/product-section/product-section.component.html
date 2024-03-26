@@ -1,7 +1,7 @@
 <div *ngFor="let product of listProducts | paginate: { id: 'CONTENT_ID', itemsPerPage: 10, currentPage: page, totalItems: totalItems }">
     <app-product-card [product]="product" [isChartLoading]="isChartLoading"></app-product-card>
 </div>
-<div class="row my-4">
+<div *ngIf="listProducts.length > 0" class="row my-4">
   <div class="col-md-12">
      <div *ngIf="!isLoading">
         <pagination-controls 

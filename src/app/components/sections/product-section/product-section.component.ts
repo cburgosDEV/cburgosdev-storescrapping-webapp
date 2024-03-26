@@ -1,10 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Product } from 'src/app/models/Product';
 import { StoreService } from 'src/app/services/store.service';
 import Chart from 'chart.js/auto';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Brand } from 'src/app/models/Brand';
-import { Store } from 'src/app/models/Store';
 
 @Component({
   selector: 'app-product-section',
@@ -12,11 +10,13 @@ import { Store } from 'src/app/models/Store';
   styleUrls: ['./product-section.component.css']
 })
 export class ProductSectionComponent {
+  @Input() pageName : string = "";
+
   listProducts: Product[] = [];
   isLoading: boolean = false;
   chart: any = [];
   isChartLoading: boolean = false;
-  category: number = 0;
+  category: string = "";
   brand: string = "";
   store: string = "";
   productName: string = "";
@@ -24,14 +24,6 @@ export class ProductSectionComponent {
   page: number = 1;
   totalPages: number = 0;
   totalItems: number = 0;
-
-  listBrands: Brand[] = [];
-  isLoadingBrands: boolean = false;
-  selectedBrands: number[] = [];
-
-  listStores: Store[] = [];
-  isLoadingStores: boolean = false;
-  selectedStores: number[] = [];
 
   constructor(private storeService: StoreService, private route: ActivatedRoute, private router: Router) {}
 
@@ -49,44 +41,10 @@ export class ProductSectionComponent {
       console.log('Product:', this.productName);
       console.log('Store:', this.store);
 
-
       this.getProducts(this.page, this.brand, this.category, this.productName, this.store);
-      this.getStores();     
     });
   }
-  setBrands(listProducts: any) : void {
-    this.listBrands = [];
-    if(isNaN(this.category) || this.category.toString() === "") {
-      listProducts.forEach((p: any) => {
-        let index = this.listBrands.find((b: Brand) => b.id == p.brandId && p.brandId != 0);
-        if(index == undefined) this.listBrands.push(new Brand(p.brandId, p.brand));
-      });
-      console.log(this.listBrands);
-    } else {
-      this.getBrands(this.category);
-    }
-  }
-  getBrands(category: number) : void {
-    this.isLoadingBrands = true;
-    this.storeService.getBrands(category).subscribe(result => {
-      this.isLoadingBrands = false;
-      this.listBrands = result;
-    }, error => {
-      this.isLoadingBrands = false;
-      console.log(error);
-    });
-  }
-  getStores() : void {
-    this.isLoadingStores = true;
-    this.storeService.getStores().subscribe(result => {
-      this.isLoadingStores = false;
-      this.listStores = result;
-    }, error => {
-      this.isLoadingStores = false;
-      console.log(error);
-    });
-  }
-  getProducts(page: number, brand: string, category: number, productName: string, store: string) : void {
+  getProducts(page: number, brand: string, category: string, productName: string, store: string) : void {
     this.listProducts = [];
     this.isLoading = true;
     this.isChartLoading = true;
@@ -114,9 +72,6 @@ export class ProductSectionComponent {
         );
         this.listProducts.push(product);
       });
-
-      this.setBrands(result.content);
-
       setTimeout(() => {
         this.generateCharts();
         this.isChartLoading = false;
@@ -158,65 +113,13 @@ export class ProductSectionComponent {
   getPage(page: number) : void {
     console.log(page);
     this.page = page;
-    this.router.navigate(['/content'], 
+    this.router.navigate(['/' + this.pageName], 
       { queryParams: 
         { 
           page: page, 
           category: this.category,
           brand: this.brand,
           product: this.productName,
-          store: this.store
-        } 
-      });
-  }
-  brandCheckbox(id: number) : void {
-    const index = this.selectedBrands.indexOf(id);
-
-    if (index === -1) {
-      this.selectedBrands.push(id);
-    } else {
-      this.selectedBrands.splice(index, 1);
-    }
-
-    console.log(id);
-    console.log(this.selectedBrands);
-  }
-  storeCheckbox(id: number) : void {
-    const index = this.selectedStores.indexOf(id);
-
-    if (index === -1) {
-      this.selectedStores.push(id);
-    } else {
-      this.selectedStores.splice(index, 1);
-    }
-
-    console.log(id);
-    console.log(this.selectedStores);
-  }
-  filter() : void {
-    this.store = this.selectedStores.join();
-    this.brand = this.selectedBrands.join();
-    this.router.navigate(['/content'], 
-      { queryParams: 
-        { 
-          page: 1, 
-          category: this.category,
-          brand: this.brand,
-          store: this.store,
-        } 
-      });
-  }
-  resetFilters() : void {
-    this.brand = "";
-    this.store = "";
-    this.selectedBrands = [];
-    this.selectedStores = [];
-    this.router.navigate(['/content'], 
-      { queryParams: 
-        { 
-          page: 1, 
-          category: this.category,
-          brand: this.brand,
           store: this.store
         } 
       });

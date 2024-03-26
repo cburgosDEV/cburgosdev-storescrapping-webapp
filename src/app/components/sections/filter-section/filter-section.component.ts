@@ -13,7 +13,7 @@ import { PageConstant } from 'src/app/constants/PageConstant';
 export class FilterSectionComponent {
   @Input() page : string = "";
 
-  category: number = 0;
+  category: string = "";
   store: string = "";
   brand: string = "";
   productName: string = "";
@@ -37,6 +37,7 @@ export class FilterSectionComponent {
       this.category = params['category'];
       this.brand = params['brand'];
       this.store = params['store'];
+      this.productName = params['product'];
       
       console.log('Page:', this.page);
       console.log('Category:', this.category);
@@ -48,16 +49,16 @@ export class FilterSectionComponent {
         this.getStores();
         this.getBrands(this.category);
       } else if(this.page == PageConstant.STORE) {
-        this.getStores();
-        this.getBrands(this.category);
+        this.getCategories();
+        this.getBrands();
       } else if (this.page == PageConstant.FILTER) {
         this.getStores();
-        this.getBrands(this.category);
+        this.getBrands();
         this.getCategories();
       }
     });
   }
-  getBrands(category: number) : void {
+  getBrands(category: string = "") : void {
     this.isLoadingBrands = true;
     this.storeService.getBrands(category).subscribe(result => {
       this.isLoadingBrands = false;
@@ -111,31 +112,48 @@ export class FilterSectionComponent {
     console.log(id);
     console.log(this.selectedStores);
   }
+  categoryCheckbox(id: number) : void {
+    const index = this.selectedCategories.indexOf(id);
+
+    if (index === -1) {
+      this.selectedCategories.push(id);
+    } else {
+      this.selectedCategories.splice(index, 1);
+    }
+
+    console.log(id);
+    console.log(this.selectedStores);
+  }
   filter() : void {
-    this.store = this.selectedStores.join();
+    this.store = this.page == PageConstant.STORE ? this.store : this.selectedStores.join();
     this.brand = this.selectedBrands.join();
-    this.router.navigate(['/content'], 
+    this.category = this.page == PageConstant.CATEGORY ? this.category : this.selectedCategories.join();
+    this.router.navigate(['/' + this.page], 
+      { queryParams: 
+        { 
+          page: 1,  
+          category: this.category,
+          brand: this.brand,
+          store: this.store,
+          product: this.productName
+        } 
+      });
+  }
+  resetFilters() : void {
+    this.brand = "";
+    this.store = this.page == PageConstant.STORE ? this.store : "";
+    this.category = this.page == PageConstant.CATEGORY ? this.category : "";
+    this.selectedBrands = [];
+    this.selectedStores = [];
+    this.selectedCategories = [];
+    this.router.navigate(['/' + this.page], 
       { queryParams: 
         { 
           page: 1, 
           category: this.category,
           brand: this.brand,
           store: this.store,
-        } 
-      });
-  }
-  resetFilters() : void {
-    this.brand = "";
-    this.store = "";
-    this.selectedBrands = [];
-    this.selectedStores = [];
-    this.router.navigate(['/content'], 
-      { queryParams: 
-        { 
-          page: 1, 
-          category: this.category,
-          brand: this.brand,
-          store: this.store
+          product: this.productName
         } 
       });
   }
